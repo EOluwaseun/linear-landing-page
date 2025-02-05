@@ -12,10 +12,11 @@ export default function Header() {
   const [hamburgerMenuIsOpen, setHamburgerMenuIsOpen] = useState(false);
   //this will make d navigation not to scroll
   useEffect(() => {
-    const html = document.querySelector('html');
+    const html = document.querySelector('html'); //this return null
     if (html) html.classList.toggle('overflow-hidden', hamburgerMenuIsOpen);
   }, [hamburgerMenuIsOpen]);
 
+  //the below remove d overflow hiiden if we resize or changeorientation of the browser
   useEffect(() => {
     const closeHamburgerNavigation = () => setHamburgerMenuIsOpen(false);
 
