@@ -1,13 +1,31 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
+import classNames from 'classnames';
 
-interface ButtonProps extends VariantProps<typeof buttonClasses> {
+// interface ButtonProps extends VariantProps<typeof buttonClasses> {
+//   children: React.ReactNode;
+//   href: string;
+// }
+type ButtonBaseProps = VariantProps<typeof buttonClasses> & {
   children: React.ReactNode;
+};
+
+interface ButtonAsAnchorProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string;
 }
+
+interface ButtonAsButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  href?: never;
+}
+
+type ButtonProps = ButtonBaseProps & (ButtonAsAnchorProps | ButtonAsButtonProps);
+
+export const Highlight = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <span className={classNames('highlight', className)}>{children}</span>
+);
 
 const buttonClasses = cva('rounded-full inline-flex items-center', {
   variants: {
@@ -34,10 +52,28 @@ const buttonClasses = cva('rounded-full inline-flex items-center', {
   },
 });
 
-export function Button({ children, href, variant, size }: ButtonProps) {
+// export function Button({ children, href, variant, size }: ButtonProps) {
+//   return (
+//     <Link className={buttonClasses({ variant, size })} href={href}>
+//       {children}
+//     </Link>
+//   );
+// }
+
+export const Button = ({ children, variant, size, ...props }: ButtonProps) => {
+  const classes = buttonClasses({ variant, size, className: props.className });
+
+  if ('href' in props && props.href !== undefined) {
+    return (
+      <Link {...props} className={classes}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <Link className={buttonClasses({ variant, size })} href={href}>
+    <button {...props} className={classes}>
       {children}
-    </Link>
+    </button>
   );
-}
+};
