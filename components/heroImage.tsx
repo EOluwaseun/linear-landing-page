@@ -2,19 +2,61 @@
 
 import classNames from 'classnames';
 // import Image from 'next/image';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 // intersection obsever is used to know weather object is in view or not
+
+const randomNumberBetween = (min: number, max: number) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+interface Line {
+  id: string;
+  direction: 'to top' | 'to left';
+  size: number;
+  duration: number;
+}
 
 export default function HeroImage() {
   const { ref, inView } = useInView({ threshold: 0.4, triggerOnce: true }); //ref is then passto DOM element
   //threashold is number from 0 - 1
   //if page is 40% in view
   // ========LINES========
-  const [lines, setLines] = useState([
-    { direction: 'to bottom', duration: 200, size: 20 },
-    { direction: 'to right', duration: 200, size: 15 },
-  ]);
+  const [lines, setLines] = useState<Line[]>([]);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  //this removes the line after it has moved once
+  const removeLine = (id: string) => {
+    setLines((prev) => prev.filter((line) => line.id !== id));
+  };
+
+  //for that
+  useEffect(() => {
+    if (!inView) return; //if not inview, dont show no lines
+
+    const renderLine = (timeout: number) => {
+      timeoutRef.current = setTimeout(() => {
+        setLines((lines) => [
+          ...lines,
+          {
+            direction: Math.random() > 0.5 ? 'to top' : 'to left',
+            duration: randomNumberBetween(1300, 3500),
+            size: randomNumberBetween(10, 30), //100px to 300px
+            id: Math.random().toString(36).substring(7),
+          },
+        ]);
+
+        renderLine(randomNumberBetween(800, 2500));
+      }, timeout);
+    };
+
+    renderLine(randomNumberBetween(800, 1300));
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, [inView, setLines]);
+
   return (
     // for translate x to work, it needs to be wrapped in perspective div
     <div ref={ref} className="mt-[12.8rem] [perspective:2000px]">
@@ -27,15 +69,24 @@ export default function HeroImage() {
         )}
       >
         {/* moving lines */}
-        <div className="absolute w-full h-full left-0 top-0 z-20">
-          {lines.map((line, i) => (
+        <div className="absolute top-0 left-0 z-20 h-full w-full">
+          {lines.map((line) => (
             <span
-              key={i}
-              style={{ '--direction': line.direction, '--size': line.size } as CSSProperties}
+              key={line.id}
+              onAnimationEnd={() => removeLine(line.id)}
+              style={
+                {
+                  '--direction': line.direction,
+                  '--size': line.size,
+                  '--animation-duration': `${line.duration}ms`,
+                } as CSSProperties
+              }
               className={classNames(
-                'bg-glow-lines block absolute top-0',
-                line.direction === 'to right' && 'left-0 h-[1px] w-[calc(var(--size)*0.5rem)]',
-                line.direction === 'to bottom' && 'right-0 w-[1px] h-[calc(var(--size)*0.5rem)]'
+                'absolute top-0 block h-[1px] bg-glow-lines',
+                line.direction === 'to left' &&
+                  `left-0 h-[1px] w-[calc(var(--size)*0.5rem)] animate-glow-line-horizontal md:w-[calc(var(--size)*1rem)]`,
+                line.direction === 'to top' &&
+                  `right-0 h-[calc(var(--size)*0.5rem)] w-[1px] animate-glow-line-vertical md:h-[calc(var(--size)*1rem)]`
               )}
             />
           ))}
