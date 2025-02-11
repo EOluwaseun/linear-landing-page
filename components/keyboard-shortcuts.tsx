@@ -23,7 +23,9 @@ export const KeyboardShortcuts = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const illustrationWrapperRef = useRef<HTMLDivElement>(null);
   const activeShortcutIndex = useRef(0);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | number>(0);
+  // const timeoutRef = useRef<NodeJS.Timeout>();
+  // const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scheduleTimeout = () => {
     timeoutRef.current = setTimeout(goToNextShortcut, 2500);
