@@ -22,6 +22,11 @@ export default function Clients() {
         <br className="hidden md:block" /> From next-gen startups to established enterprises.
       </p>
       <div className="flex flex-wrap justify-around gap-x-6 gap-y-8 [&_svg]:max-w-[16rem] [&_svg]:basis-[calc(50%-12px)] md:[&_svg]:basis-[calc(16.66%-20px)]">
+        {/* 100 divided by 6 elements on the row = 16.66 */}
+        {/* 6 elements gives 5 GAPS in between. and this has a gap of 24px*/}
+        {/* 5 X 24 = 120px divded by elements, 120/6 elements = 20px */}
+        {/* on mobile, svg is 50% */}
+        {/* max width of the svg is 160px */}
         <RampLogo />
         <LoomLogo className="hidden md:block" />
         <VercelLogo />
