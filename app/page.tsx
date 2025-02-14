@@ -1,8 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Container from '@/components/container';
 import { StarsIllustration } from '@/components/icons/stars';
+import { BuildMomentum } from '@/components/sections/build-momentum';
 import Clients from '@/components/sections/client';
+import EnjoyIssueTracking from '@/components/sections/enjoy-issues-tracking';
 import HomepageHero from '@/components/sections/homepage-hero';
+import { SetDirection } from '@/components/sections/set-direction';
 import { UnlikeAnyTool } from '@/components/sections/unlike-any-tools';
 // import UnlikeAnyTools from '@/components/sections/unlike-any-tools';
 import classNames from 'classnames';
@@ -31,6 +34,9 @@ export default function Home() {
         <StarsIllustration />
       </div>
       <UnlikeAnyTool />
+      <EnjoyIssueTracking />
+      <BuildMomentum />
+      <SetDirection />
     </>
   );
 }

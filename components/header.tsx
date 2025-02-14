@@ -59,25 +59,25 @@ export default function Header() {
               )}
             >
               <li>
-                <Link href={'/'}>Features</Link>
+                <Link href="/">Features</Link>
               </li>
               <li>
-                <Link href={'/'}>Methods</Link>
+                <Link href="/">Methods</Link>
               </li>
               <li className="md:hidden lg:block">
-                <Link href={'/'}>Customers</Link>
+                <Link href="/">Customers</Link>
               </li>
               <li className="md:hidden lg:block">
-                <Link href={'/'}>Changelogs</Link>
+                <Link href="/">Changelogs</Link>
               </li>
               <li className="md:hidden lg:block">
-                <Link href={'/'}>Integrations</Link>
+                <Link href="/">Integrations</Link>
               </li>
               <li className="">
-                <Link href={'/'}>Pricing</Link>
+                <Link href="/">Pricing</Link>
               </li>
               <li className="">
-                <Link href={'/'}>Company</Link>
+                <Link href="/">Company</Link>
               </li>
             </ul>
           </nav>

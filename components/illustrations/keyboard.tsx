@@ -328,7 +328,7 @@ export const KeyboardIllustration = () => (
         rx="2.75"
       ></rect>
     </g>
-    <g data-key="shift">
+    <g data-key="⇧">
       <rect width="90.431" height="38.756" x="9.227" y="136.569" fill="#fff" fillOpacity="0.08" rx="4"></rect>
       <path
         fill="#fff"
@@ -1067,7 +1067,7 @@ export const KeyboardIllustration = () => (
         rx="2.75"
       ></rect>
     </g>
-    <g data-key="⇧">
+    <g data-key="shift">
       <rect width="86.74" height="38.756" x="527.82" y="136.569" fill="#fff" fillOpacity="0.08" rx="4"></rect>
       <path
         fill="#fff"
